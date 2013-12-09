@@ -1,0 +1,44 @@
+<div class="uploader container" ng-controller="UploadCtrl">
+    <div>
+        <p><strong>First, Choose a CSV file to upload and analyze</strong></p>
+    <input type="file" ng-model="file" ng-file-select/>
+    </div>
+    <form class="form-horizontal" ng-show="file">
+        <p><strong>Now, pick a metric and grouping</strong></p>
+        <div class="control-group" >
+            <label class ="control-label" tooltip="Usually this would be Sales">What metric?</label>
+            <select ui-select2="keyOptions" ng-model="metricKey" data-placeholder="Pick your metric">
+                <option></option>
+                <option ng-repeat="key in keyOptions" value="{{key}}">{{key}}</option>
+            </select>
+        </div>
+        <div class="control-group" >
+            <label class="control-label" tooltip="Usually this would be Company"> What grouping? </label>
+            <select ui-select2="keyOptions" ng-model="groupKey" data-placeholder="Pick your group">
+                <option></option>
+                <option ng-repeat="key in keyOptions" value="{{key}}">{{key}}</option>
+            </select>
+        </div>
+    </form>
+    <div class="summary container" ng-show="metricKey && groupKey">
+        <h4>HHI total: {{hhiTotal}}</h4>
+        <h4>Share total: {{shareTotal}}</h4>
+        <table class="table table-bordered table-striped table-hover">
+            <thead>
+                <th>{{groupKey}} (grouping)</td>
+                <th>Total {{metricKey}}</td>
+                <th>Market Share</td>
+                <th>HHI Index</td>
+            </thead>
+            <tbody>
+                <tr ng-repeat="row in resultSet">
+                    <td>{{row.group}}</td>
+                    <td>{{row.sum}}</td>
+                    <td>{{row.share}}</td>
+                    <td>{{row.hhi_score}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>

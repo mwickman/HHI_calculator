@@ -14,8 +14,12 @@
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "author": "Matt Wickman",
-  "license": "BSD"
+  "license": "BSD",
+  "dependencies": {
+    "express": "~3.4.6"
+  }
 }
