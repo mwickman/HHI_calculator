@@ -1,0 +1,21 @@
+{
+  "name": "hhi_calc",
+  "description": "An HHI calculator",
+  "devDependencies": {
+    "phantomjs": "~1.9",
+    "karma": "~0.10",
+    "karma-junit-reporter": "~0.1",
+    "karma-jasmine": "~0.1",
+    "karma-ng-scenario": "~0.1"
+  },
+  "version": "0.0.0",
+  "main": "server.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Matt Wickman",
+  "license": "BSD"
+}
