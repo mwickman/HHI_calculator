@@ -6,26 +6,24 @@
 // Demonstrate how to register services
 // In this case it is a simple value service.
 angular.module('myApp.services', [])
-    .factory('store',[function(){
-
-}])
 
 .factory('HHI', [function(){
 
       var HhiSet = function(list, config) {
         var self = this;
-        self.metric = config.metric;
+        self.metric = config.metric; // the key to calculate HHI with
         self.company = config.company;
-        self.grouping = config.grouping;
-        self.list = list;
+        self.grouping = config.grouping; // the key to group the HHI calculation by, usually company
+        self.list = list; //a list of objects in the set, basically table rows
 
+        /** calculates the HHI for the set*/
         self.calculate = function (grouping, metric) {
           var result = [];
           var grouping_key = grouping || self.company;
           var metric_key = metric || self.metric;
           var temp_table = self.list.map(function(row){
             if(typeof(row[metric_key]) === 'string') {
-              row[metric_key] = row[metric_key].replace(/[^A-Za-z0-9]/g,'');
+              row[metric_key] = row[metric_key].replace(/[^A-Za-z0-9]/g,''); // get rid of symbols so we can do math
             }
             return row;
           });
@@ -63,7 +61,7 @@ angular.module('myApp.services', [])
           })
           console.log('final result', result);
           return result;
-          //add a field for their percentage of total squared
+          //@todo: add a field for their percentage of total squared
         }
       }
 

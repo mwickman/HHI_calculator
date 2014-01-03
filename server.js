@@ -17,3 +17,6 @@ app.get('/', function (req, res) {
   res.sendfile(__dirname + 'app/index.html');
 });
 
+app.get('/sample.csv', function (req, res){
+  res.sendfile(__dirname + '/sample.csv');
+});

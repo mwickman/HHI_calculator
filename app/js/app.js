@@ -13,12 +13,12 @@ angular.module('myApp', [
   'ui.select2'
 ]).
 config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
-  $urlRouterProvider.otherwise("/upload");
+    $urlRouterProvider.otherwise("/upload");
 
-      $stateProvider
-          .state('upload', {
-            url: '/upload',
-            templateUrl: "partials/upload.html"
-          })
+    $stateProvider
+        .state('upload', {
+          url: '/upload',
+          templateUrl: "partials/upload.html"
+        })
 
 }]);

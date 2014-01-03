@@ -11,19 +11,36 @@ angular.module('myApp.controllers', []).
 
         $scope.getFile = function() {
           fileReader.readAsText($scope.file, $scope).then(function(result){
-            console.log('read back ', result);
-            var objects = $.csv.toObjects(result);
-            $scope.csv = objects;
-            console.log('now parsed into ', objects);
-            $scope.keyOptions = _.keys(objects[0]);
-
+            updateTable(result);
           });
         }
 
+        var updateTable = function(result) {
+          console.log('read back ', result, result.toString());
+          var objects = $.csv.toObjects(result);
+          $scope.csv = objects;
+          console.log('now parsed into ', objects);
+          var keyOptions = _.keys(objects[0]);
+          $scope.groupingOptions = _.filter(keyOptions, function(key){
+            var field = objects[0][key].replace('$', '');
+            return isNaN(field);
+          });
+          $scope.metricOptions = _.filter(keyOptions, function(key){
+            var field = objects[0][key].replace('$', '');
+            return !isNaN(field);
+          });
+        }
+
+        $scope.useDefault = function() {
+          fileReader
+        }
+
         $scope.$watch('metricKey', function(){
+          console.log('metric key changed');
           calculateHhi($scope.csv);
         });
         $scope.$watch('groupKey', function(){
+          console.log('groupKey changed');
           calculateHhi($scope.csv);
         });
 
@@ -39,7 +56,6 @@ angular.module('myApp.controllers', []).
             return prev + current;
           })
         }
-  }])
-  .controller('MyCtrl2', [function() {
 
-  }]);
+        var sampleCSV;
+  }])
