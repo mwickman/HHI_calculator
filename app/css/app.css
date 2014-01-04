@@ -32,3 +32,7 @@
 .uploader {
     margin-top: 50px;
 }
+
+.select {
+    min-width: 150px;
+}

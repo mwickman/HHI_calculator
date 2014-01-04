@@ -21,6 +21,7 @@ angular.module('myApp.controllers', []).
           $scope.csv = objects;
           console.log('now parsed into ', objects);
           var keyOptions = _.keys(objects[0]);
+          $scope.keys = keyOptions;
           $scope.groupingOptions = _.filter(keyOptions, function(key){
             var field = objects[0][key].replace('$', '');
             return isNaN(field);
@@ -31,8 +32,8 @@ angular.module('myApp.controllers', []).
           });
         }
 
-        $scope.useDefault = function() {
-          fileReader
+        $scope.useSample = function() {
+          updateTable(sampleCSV);
         }
 
         $scope.$watch('metricKey', function(){
@@ -51,11 +52,11 @@ angular.module('myApp.controllers', []).
           $scope.hhiTotal = _.pluck($scope.resultSet, 'hhi_score').reduce(function(prev, current){
             console.log(prev);
             return prev + current;
-          })
+          });
           $scope.shareTotal = _.pluck($scope.resultSet, 'share').reduce(function(prev, current){
             return prev + current;
           })
-        }
+        };
 
-        var sampleCSV;
-  }])
+        var sampleCSV = "company,sales,unit_production\nAlpha,$1200,100\nBeta,$1100,80\nCharlie,$1500,98\nDelta,$1300,75\nCharlie,$150,25\nCharlie,$2000,65\nEcho,$235,10";
+  }]);
