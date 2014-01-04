@@ -21,4 +21,14 @@ config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRou
           templateUrl: "partials/upload.html"
         })
 
+        .state('columnSelect', {
+          url: '/columnSelect',
+          templateUrl: "partials/columnSelect.html"
+        })
+
+        .state('result', {
+          url: 'result',
+          templateUrl: "partials/result.html"
+        })
+
 }]);

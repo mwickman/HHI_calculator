@@ -3,30 +3,31 @@
 /* Controllers */
 
 angular.module('myApp.controllers', []).
-  controller('UploadCtrl', ['$scope', 'fileReader', 'HHI',
-      function($scope, fileReader, HHI) {
+  controller('UploadCtrl', ['$scope', 'fileReader', 'HHI', '$state',
+      function($scope, fileReader, HHI, $state) {
 
 //        $scope.metricKey = '' ;
 //        $scope.groupKey = '';
-
+        $scope.data = {};
         $scope.getFile = function() {
-          fileReader.readAsText($scope.file, $scope).then(function(result){
+          fileReader.readAsText($scope.data.file, $scope).then(function(result){
             updateTable(result);
           });
+         $state.go('columnSelect');
         }
 
         var updateTable = function(result) {
           console.log('read back ', result, result.toString());
           var objects = $.csv.toObjects(result);
-          $scope.csv = objects;
+          $scope.data.csv = objects;
           console.log('now parsed into ', objects);
           var keyOptions = _.keys(objects[0]);
-          $scope.keys = keyOptions;
-          $scope.groupingOptions = _.filter(keyOptions, function(key){
+          $scope.data.keys = keyOptions;
+          $scope.data.groupingOptions = _.filter(keyOptions, function(key){
             var field = objects[0][key].replace('$', '');
             return isNaN(field);
           });
-          $scope.metricOptions = _.filter(keyOptions, function(key){
+          $scope.data.metricOptions = _.filter(keyOptions, function(key){
             var field = objects[0][key].replace('$', '');
             return !isNaN(field);
           });
@@ -34,26 +35,32 @@ angular.module('myApp.controllers', []).
 
         $scope.useSample = function() {
           updateTable(sampleCSV);
+          $state.go('columnSelect');
         }
 
-        $scope.$watch('metricKey', function(){
-          console.log('metric key changed');
-          calculateHhi($scope.csv);
+        $scope.$watch('data.metricKey', function(){
+          console.log('metric key changed', $scope.metricKey);
+          if($scope.data.metricKey != undefined)calculateHhi($scope.data.csv);
         });
-        $scope.$watch('groupKey', function(){
-          console.log('groupKey changed');
-          calculateHhi($scope.csv);
+        $scope.$watch('data.groupKey', function(){
+          console.log('groupKey changed', $scope.groupKey);
+          if($scope.data.groupKey != undefined) calculateHhi($scope.data.csv);
+        });
+        $scope.$watch('data', function(){
+          console.log('data changed', $scope.data);
+          if($scope.data.groupKey != undefined) calculateHhi($scope.data.csv);
         });
 
         var calculateHhi = function(list) {
-          var hhiSet = HHI.createSet(list, {company: 'company', metric: $scope.metricKey})
-          console.log('calculating hhiSet with group/metric', $scope.groupKey, $scope.metricKey);
-          $scope.resultSet = hhiSet.calculate($scope.groupKey, $scope.metricKey);
-          $scope.hhiTotal = _.pluck($scope.resultSet, 'hhi_score').reduce(function(prev, current){
+          console.log('called calculate HHI', list);
+          var hhiSet = HHI.createSet(list, {company: 'company', metric: $scope.data.metricKey})
+          console.log('calculating hhiSet with group/metric', $scope.data.groupKey, $scope.data.metricKey);
+          $scope.data.resultSet = hhiSet.calculate($scope.data.groupKey, $scope.data.metricKey);
+          $scope.data.hhiTotal = _.pluck($scope.data.resultSet, 'hhi_score').reduce(function(prev, current){
             console.log(prev);
             return prev + current;
           });
-          $scope.shareTotal = _.pluck($scope.resultSet, 'share').reduce(function(prev, current){
+          $scope.data.shareTotal = _.pluck($scope.data.resultSet, 'share').reduce(function(prev, current){
             return prev + current;
           })
         };

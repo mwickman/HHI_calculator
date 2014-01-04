@@ -1,10 +1,10 @@
-<div class="uploader container col-md-12 theme-showcase" ng-controller="UploadCtrl">
+<div class="uploader container col-md-12">
     <div class="row">
         <p><strong>First, Choose a CSV file to upload and analyze</strong></p>
         <p>One of your columns is expected to be the grouping, such as 'Company'</p>
         <div class="row">
             <div class="form-group col-sm-4">
-                <input type="file" ng-model="file" ng-file-select/>
+                <input type="file" ng-model="data.file" ng-file-select/>
                 <p class="help-block">Or <a href="sample.csv">download</a> a sample CSV</p>
             </div>
             <div class="col-sm-4">
@@ -15,24 +15,24 @@
             </div>
         </div>
     </div>
-    <div class="row" ng-show="metricOptions">
+    <div class="row" ng-show="data.metricOptions">
         <form class="form-horizontal col-md-3">
             <p><strong>Now, pick a metric and grouping</strong></p>
             <div class="control-group">
                 <label class ="control-label" tooltip="Usually this would be 'Sales'">What metric?</label>
                 <div>
-                <select class="select" ui-select2="keyOptions" ng-model="metricKey" data-placeholder="Pick your metric">
+                <select class="select" ui-select2="data.keyOptions" ng-model="data.metricKey" data-placeholder="Pick your metric">
                     <option></option>
-                    <option ng-repeat="key in metricOptions" value="{{key}}">{{key}}</option>
+                    <option ng-repeat="key in data.metricOptions" value="{{key}}">{{key}}</option>
                 </select>
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label" tooltip="Usually this would be 'Company'"> What grouping? </label>
                 <div class="select">
-                <select ui-select2="keyOptions" ng-model="groupKey" data-placeholder="Pick your group">
+                <select ui-select2="data.keyOptions" ng-model="data.groupKey" data-placeholder="Pick your group">
                     <option></option>
-                    <option ng-repeat="key in groupingOptions" value="{{key}}">{{key}}</option>
+                    <option ng-repeat="key in data.groupingOptions" value="{{key}}">{{key}}</option>
                 </select>
                 </div>
             </div>
@@ -41,28 +41,28 @@
             <div class="center-block"><strong>Your Data</strong></div>
             <table class="table table-bordered table-striped table-hover">
                 <thead>
-                    <th ng-repeat="key in keys">{{key}}</th>
+                    <th ng-repeat="key in data.keys">{{key}}</th>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="row in csv">
-                        <td ng-repeat="key in keys">{{row[key]}}</td>
+                    <tr ng-repeat="row in data.csv">
+                        <td ng-repeat="key in data.keys">{{row[key]}}</td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
-    <div class="summary container row" ng-show="metricKey && groupKey">
-        <h4>HHI total: {{hhiTotal | number:2}}</h4>
-        <h4>Share total: {{shareTotal | number:1}}%</h4>
+    <div class="summary container row" ng-show="data.metricKey && data.groupKey">
+        <h4>HHI total: {{data.hhiTotal | number:2}}</h4>
+        <h4>Share total: {{data.shareTotal | number:1}}%</h4>
         <table class="table table-bordered table-striped table-hover">
             <thead>
-                <th>{{groupKey}} (grouping)</td>
-                <th>Total {{metricKey}}</td>
+                <th>{{data.groupKey}}</td>
+                <th>Total {{data.metricKey}}</td>
                 <th>Market Share</td>
                 <th>HHI Index</td>
             </thead>
             <tbody>
-                <tr ng-repeat="row in resultSet">
+                <tr ng-repeat="row in data.resultSet">
                     <td>{{row.group}}</td>
                     <td>{{row.sum | number:2 }}</td>
                     <td>{{row.share | number:1 }}%</td>

@@ -1,0 +1,56 @@
+<div class="row" ng-show="data.metricOptions">
+    <form class="form-horizontal col-md-3">
+        <p><strong>Now, pick a metric and grouping</strong></p>
+        <div class="control-group">
+            <label class ="control-label" tooltip="Usually this would be 'Sales'">What metric?</label>
+            <div>
+                <select class="select" ui-select2="data.keyOptions" ng-model="data.metricKey" data-placeholder="Pick your metric">
+                    <option></option>
+                    <option ng-repeat="key in data.metricOptions" value="{{key}}">{{key}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" tooltip="Usually this would be 'Company'"> What grouping? </label>
+            <div class="select">
+                <select ui-select2="data.keyOptions" ng-model="data.groupKey" data-placeholder="Pick your group">
+                    <option></option>
+                    <option ng-repeat="key in data.groupingOptions" value="{{key}}">{{key}}</option>
+                </select>
+            </div>
+        </div>
+    </form>
+    <div class="col-md-9">
+        <div class="center-block"><strong>Your Data</strong></div>
+        <table class="table table-bordered table-striped table-hover">
+            <thead>
+            <th ng-repeat="key in data.keys">{{key}}</th>
+            </thead>
+            <tbody>
+            <tr ng-repeat="row in data.csv">
+                <td ng-repeat="key in data.keys">{{row[key]}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="summary container row" ng-show="data.metricKey && data.groupKey">
+    <h4>HHI total: {{data.hhiTotal | number:2}}</h4>
+    <h4>Share total: {{data.shareTotal | number:1}}%</h4>
+    <table class="table table-bordered table-striped table-hover">
+        <thead>
+        <th>{{data.groupKey}}</td>
+        <th>Total {{data.metricKey}}</td>
+        <th>Market Share</td>
+        <th>HHI Index</td>
+        </thead>
+        <tbody>
+        <tr ng-repeat="row in data.resultSet">
+            <td>{{row.group}}</td>
+            <td>{{row.sum | number:2 }}</td>
+            <td>{{row.share | number:1 }}%</td>
+            <td>{{row.hhi_score | number:2 }}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
