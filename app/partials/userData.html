@@ -1,0 +1,13 @@
+<div>
+    <div class="center-block"><strong>Your Data</strong></div>
+    <table class="table table-bordered table-striped table-hover">
+        <thead>
+        <th ng-repeat="key in data.keys">{{key}}</th>
+        </thead>
+        <tbody>
+        <tr ng-repeat="row in data.csv">
+            <td ng-repeat="key in data.keys">{{row[key]}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

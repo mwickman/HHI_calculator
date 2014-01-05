@@ -3,7 +3,7 @@
 
 // Declare app level module which depends on filters, and services
 angular.module('myApp', [
-  'ngRoute',
+  'ngAnimate',
   'myApp.filters',
   'myApp.services',
   'myApp.directives',
@@ -27,7 +27,17 @@ config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRou
         })
 
         .state('result', {
-          url: 'result',
+          url: '/result',
+          templateUrl: "partials/result.html"
+        })
+
+        .state('columnSelect.userData', {
+          url: '/userData',
+          templateUrl: "partials/userData.html"
+        })
+
+        .state('columnSelect.result', {
+          url: "/result",
           templateUrl: "partials/result.html"
         })
 

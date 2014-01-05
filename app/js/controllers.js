@@ -14,6 +14,7 @@ angular.module('myApp.controllers', []).
             updateTable(result);
           });
          $state.go('columnSelect');
+         $state.go('columnSelect.userData');
         }
 
         var updateTable = function(result) {
@@ -34,22 +35,23 @@ angular.module('myApp.controllers', []).
         }
 
         $scope.useSample = function() {
+          console.log('using sample');
           updateTable(sampleCSV);
           $state.go('columnSelect');
+          $state.go('columnSelect.userData');
         }
 
-        $scope.$watch('data.metricKey', function(){
+        $scope.$watch('[data.metricKey, data.groupKey]', function(){
           console.log('metric key changed', $scope.metricKey);
-          if($scope.data.metricKey != undefined)calculateHhi($scope.data.csv);
-        });
-        $scope.$watch('data.groupKey', function(){
-          console.log('groupKey changed', $scope.groupKey);
-          if($scope.data.groupKey != undefined) calculateHhi($scope.data.csv);
-        });
-        $scope.$watch('data', function(){
-          console.log('data changed', $scope.data);
-          if($scope.data.groupKey != undefined) calculateHhi($scope.data.csv);
-        });
+          if(($scope.data.metricKey && $scope.data.groupKey) != undefined) {
+            calculateHhi($scope.data.csv);
+            $state.go('columnSelect.result');
+          }
+        }, true);
+//        $scope.$watch('data.groupKey', function(){
+//          console.log('groupKey changed', $scope.groupKey);
+//          if($scope.data.groupKey != undefined) calculateHhi($scope.data.csv);
+//        });
 
         var calculateHhi = function(list) {
           console.log('called calculate HHI', list);
