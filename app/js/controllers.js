@@ -12,9 +12,10 @@ angular.module('myApp.controllers', []).
         $scope.getFile = function() {
           fileReader.readAsText($scope.data.file, $scope).then(function(result){
             updateTable(result);
+            $state.go('columnSelect');
+            $state.go('columnSelect.userData');
           });
-         $state.go('columnSelect');
-         $state.go('columnSelect.userData');
+
         }
 
         var updateTable = function(result) {
